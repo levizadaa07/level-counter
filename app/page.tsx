@@ -3,82 +3,41 @@
 import { useState } from "react";
 
 export default function Home() {
-  const [length, setLength] = useState(10);
-  const [includeNumbers, setIncludeNumbers] = useState(true);
-  const [includeLetters, setIncludeLetters] = useState(true);
-  const [password, setPassword] = useState("");
+  const [level, setLevel] = useState(0);
 
-  function gerarSenha() {
-    let chars = "";
-    if (includeNumbers) chars += "0123456789";
-    if (includeLetters) chars += "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
-    if (chars === "") {
-      setPassword("");
-      return;
-    }
-
-    let novaSenha = "";
-    for (let i = 0; i < length; i++) {
-      const randIndex = Math.floor(Math.random() * chars.length);
-      novaSenha += chars[randIndex];
-    }
-
-    setPassword(novaSenha);
+  function getNivel(level) {
+    if (level <= 10) return 'Beginner';
+    if (level <= 50) return 'Intermediary';
+    return 'Advanced';
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-white">
-      <div className="flex w-80 flex-col gap-4 border border-black p-6">
-        
-        <h1 className="text-center text-lg font-bold">Gerador de Senha</h1>
+    <div className="flex flex-col min-h-screen items-center justify-center gap-6 bg-gray-50">
+      
+      <h1 className="text-5xl font-extrabold text-gray-800">
+        Level: {level}
+      </h1>
 
-        {password && (
-          <div className="p-2 border border-black text-center font-mono break-words">
-            {password}
-          </div>
-        )}
+      <h2 className="text-3xl font-semibold text-gray-600">
+        {getNivel(level)}
+      </h2>
 
-        <div className="flex flex-col gap-1">
-          <span className="text-sm">Número de caracteres: {length}</span>
-          <input
-            type="range"
-            min="1"
-            max="30"
-            value={length}
-            onChange={(e) => setLength(Number(e.target.value))}
-            className="accent-black"
-          />
-        </div>
-
-        <label className="flex items-center gap-2 text-sm">
-          <input
-            type="checkbox"
-            checked={includeNumbers}
-            onChange={(e) => setIncludeNumbers(e.target.checked)}
-            className="accent-black"
-          />
-          Números
-        </label>
-
-        <label className="flex items-center gap-2 text-sm">
-          <input
-            type="checkbox"
-            checked={includeLetters}
-            onChange={(e) => setIncludeLetters(e.target.checked)}
-            className="accent-black"
-          />
-          Letras
-        </label>
-
-        <button
-          onClick={gerarSenha}
-          className="border border-black py-2 hover:bg-black hover:text-white transition"
+      <div className="flex gap-4">
+        <button 
+          onClick={() => setLevel(level + 1)}
+          className="bg-gray-800 text-white font-medium py-2 px-6 rounded-lg hover:bg-gray-700 transition-colors"
         >
-          Criar
+          Começar
         </button>
 
+        <button 
+          onClick={() => setLevel(0)}
+          className="bg-gray-200 text-gray-800 font-medium py-2 px-6 rounded-lg hover:bg-gray-300 transition-colors"
+        >
+          Resetar
+        </button>
       </div>
+
     </div>
   );
 }
