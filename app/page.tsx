@@ -5,7 +5,7 @@ import { useState } from "react";
 export default function Home() {
   const [level, setLevel] = useState(0);
 
-  function getNivel(level) {
+  function getNivel(level: number) {
     if (level <= 10) return 'Beginner';
     if (level <= 50) return 'Intermediary';
     return 'Advanced';
